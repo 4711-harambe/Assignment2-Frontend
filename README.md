@@ -1,4 +1,4 @@
-### COMP 4711 - Assignment 1
+### COMP 4711 - Assignment 2 - Frontend
 
 Wilson Lau - Team Captain
 
@@ -9,17 +9,3 @@ Zack Wilson
 Neil Brar
 
 Lukasz Pacyk
-
-### Work Distribution
-
-#### Data
-
-Jason
-
-#### Views
-
-Lukasz
-
-#### Controllers
-
-Wilson
