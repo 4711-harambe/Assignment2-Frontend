@@ -50,7 +50,7 @@ class Admin extends Application {
 
     //Get the stock data for the view.
     public function getStockViewData() {
-        $stock = $this->stockmodel->all();
+        $stock = $this->stockModel->all();
 
         $stockList = array();
 
@@ -69,7 +69,7 @@ class Admin extends Application {
 
     // Get the supplies data for the view.
     public function getSuppliesViewData() {
-        $supplies = $this->suppliesmodel->all();
+        $supplies = $this->suppliesModel->all();
 
         $supplyList = array();
 

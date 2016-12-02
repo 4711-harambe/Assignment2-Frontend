@@ -15,7 +15,7 @@ class Sales extends Application {
 	{
                 $this->data['pagebody'] = 'sales/sales_view';
                 $this->data['pagetitle'] = 'Sales Page';
-		$stock = $this->stockmodel->all();
+		$stock = $this->stockModel->all();
 
                 $stockList = array();
 
@@ -37,8 +37,8 @@ class Sales extends Application {
         {
             $normalCode = str_replace('_', ' ', $code);
             $this->data['pagebody'] = 'sales/item_view';
-            $stock = $this->stockmodel->singleStock($normalCode);
-            $recipe = $this->recipesmodel->singleRecipe($normalCode);
+            $stock = $this->stockModel->singleStock($normalCode);
+            $recipe = $this->recipesModel->singleRecipe($normalCode);
             $this->data['pagetitle'] = $stock['code'];
 
             $this->data['code'] = $stock['code'];
@@ -60,7 +60,7 @@ class Sales extends Application {
             $this->render();
 
         }
-        
+
         public function buy($code) {
 		$normalCode = str_replace('_', ' ', $code);
 		$stockCount = $this->stockModel->singleStock($normalCode)['quantityOnHand'];
@@ -68,7 +68,7 @@ class Sales extends Application {
 		$this->phpAlert("Bought a " . $normalCode . " for $" . $stockPrice . ". There are now " . ($stockCount - 1) . " in stock. Enjoy!");
 		redirect('/sales', 'refresh');
 	}
-        
+
         public function phpAlert($msg) {
 	    echo '<script type="text/javascript">alert("' . $msg . '")</script>';
 	}

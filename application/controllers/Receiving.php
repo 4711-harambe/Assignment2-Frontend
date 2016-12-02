@@ -24,7 +24,7 @@
 
             $this->data['pagebody'] = 'receiving/receiving_view';
             $this->data['pagetitle'] = 'Receiving Page';
-            $supplies = $this->suppliesmodel->all();
+            $supplies = $this->suppliesModel->all();
 
             $supplyList = array();
 
@@ -44,7 +44,7 @@
 
         public function showDetails($id)
         {
-            $supplies= $this->suppliesmodel->details($id);
+            $supplies= $this->suppliesModel->details($id);
             $this->data['pagebody'] = 'receiving/details_view';
             $this->data['pagetitle'] = $supplies['code'];
 
