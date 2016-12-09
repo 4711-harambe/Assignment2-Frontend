@@ -20,6 +20,9 @@
         <li><a href="{link}">{name}</a></li>
         {/menudata}
       </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li><a  href="/toggle">Toggle</a></li>
+      </ul>
       <p class= "navbar-text navbar-right">Role: {userrole}</p>
     </div><!--/.nav-collapse -->
   </div>

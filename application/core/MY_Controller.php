@@ -27,7 +27,9 @@ class Application extends CI_Controller
 		//Get user Role
 		$this->data['userrole'] = $this->session->userdata('userrole');
 		if ($this->data['userrole'] == NULL) $this->data['userrole'] = 'guest';
-		$this->data['menudata'] = $this->config->item('menudata');
+		if ($this->data['userrole'] == 'admin') $this->data['menudata'] = $this->config->item('adminmenudata');
+		else if ($this->data['userrole'] == 'user') $this->data['menudata'] = $this->config->item('usermenudata');
+		else  $this->data['menudata'] = $this->config->item('guestmenudata');
 	}
 
 	/**

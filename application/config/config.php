@@ -2,13 +2,24 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 // Loads navbar content; add or remove items here to change the navbar
-$config['menudata'] =  array(
+$config['usermenudata'] =  array(
+        array('name' => 'Home', 'link' => '/'),
+        array('name' => 'Production', 'link' => '/production'),
+        array('name' => 'Sales', 'link' => '/sales'),
+        array('name' => 'Receiving', 'link' => '/receiving'),
+    );
+
+$config['adminmenudata'] =  array(
         array('name' => 'Home', 'link' => '/'),
         array('name' => 'Production', 'link' => '/production'),
         array('name' => 'Sales', 'link' => '/sales'),
         array('name' => 'Receiving', 'link' => '/receiving'),
         array('name' => 'Admin', 'link' => '/admin'),
-        array('name' => 'Toggle Role', 'link' => '/toggle')
+    );
+
+$config['guestmenudata'] =  array(
+        array('name' => 'Home', 'link' => '/'),
+        array('name' => 'Sales', 'link' => '/sales'),
     );
 
 /*
