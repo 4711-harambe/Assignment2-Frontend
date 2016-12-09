@@ -32,7 +32,7 @@ CREATE TABLE `stock` (
   `code` varchar(32) NOT NULL,
   `description` varchar(256) NOT NULL,
   `sellingPrice` decimal(5,2) NOT NULL,
-  `quantityOnHand` decimal(3,0) NOT NULL,
+  `quantityOnHand` decimal(3,0) NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 --
@@ -62,7 +62,7 @@ ALTER TABLE `stock`
 -- Table structure for table `recipes`
 --
 
-DROP TABLE IF EXISTS `recipes`
+DROP TABLE IF EXISTS `recipes`;
 CREATE TABLE `recipes` (
 `id` int (11) NOT NULL,
 `code` varchar(32) NOT NULL,
@@ -74,7 +74,7 @@ CREATE TABLE `recipes` (
 -- Dumping data for table `recipes`
 --
 
-INSERT INTO `recipes` (`id`, `code`, `description`, `ingredientCode`) VALUES
+INSERT INTO `recipes` (`id`, `code`, `description`, `ingredientsCode`) VALUES
 (1, 'Breakfast', 'The most important meal of the day!', 1),
 (2, 'Lunch', 'Something to tide you over.', 2),
 (3, 'Dinner', 'The meat and potatoes of the day.',3),
@@ -82,7 +82,7 @@ INSERT INTO `recipes` (`id`, `code`, `description`, `ingredientCode`) VALUES
 (5, 'Date Night', 'Netflix and chill?', 5),
 (6, 'House Cleaning', 'For that once ever couple of months occassion', 6);
 
---------------------------------------------------------
+-- ------------------------------------------------------
 
 --
 -- Indexes for table `stock`
@@ -97,7 +97,7 @@ ALTER TABLE `recipes`
 -- Table structure for table `recipes`
 --
 
-DROP TABLE IF EXISTS `ingredients`
+DROP TABLE IF EXISTS `ingredients`;
 CREATE TABLE `ingredients` (
 `id` int (11) NOT NULL,
 `ingredientsCode` int(11) NOT NULL,
@@ -123,13 +123,13 @@ INSERT INTO `ingredients` (`id`, `ingredientsCode`, `ingredient`, `amount`) VALU
 (11, 4, 'chips', 3),
 (12, 4, 'beer', 24),
 (13, 5, 'netflix subscription', 1),
-(13, 5, 'candles', 4),
-(14, 5, 'wine', 2),
-(15, 5, 'condoms', 1),
-(16, 6, 'febreeze', 1),
-(17, 6, 'garbage bag', 3)
+(14, 5, 'candles', 4),
+(15, 5, 'wine', 2),
+(16, 5, 'condoms', 1),
+(17, 6, 'febreeze', 1),
+(18, 6, 'garbage bag', 3);
 
---------------------------------------------------------
+-- ------------------------------------------------------
 
 --
 -- Indexes for table `stock`
