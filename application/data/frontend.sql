@@ -110,24 +110,24 @@ CREATE TABLE `ingredients` (
 --
 
 INSERT INTO `ingredients` (`id`, `ingredientsCode`, `ingredient`, `amount`) VALUES
-(1, 1, 'Pizza slice', 2),
-(2, 2, 'Kraft Dinner', 1),
-(3, 2, 'Mountain Dew', 1),
-(4, 3, 'Steak', 1),
-(5, 3, 'Baked potato', 1),
-(6, 3, 'Asparagus spear', 4),
-(7, 3, 'Beer', 1),
-(8, 4, 'Deck of cards', 1),
-(9, 4, 'Poker chips', 1),
-(10, 4, 'Cigars', 5),
-(11, 4, 'Chips', 3),
-(12, 4, 'Beer', 24),
-(13, 5, 'Netflix subscription', 1),
-(13, 5, 'Candles', 4),
-(14, 5, 'Wine', 2),
-(15, 5, 'Condoms', 1),
-(16, 6, 'Febreeze', 1),
-(17, 6, 'Garbage bag', 3)
+(1, 1, 'pizza slice', 2),
+(2, 2, 'kraft Dinner', 1),
+(3, 2, 'mountain Dew', 1),
+(4, 3, 'steak', 1),
+(5, 3, 'baked potato', 1),
+(6, 3, 'asparagus spear', 4),
+(7, 3, 'beer', 1),
+(8, 4, 'deck of cards', 1),
+(9, 4, 'poker chips', 1),
+(10, 4, 'cigars', 5),
+(11, 4, 'chips', 3),
+(12, 4, 'beer', 24),
+(13, 5, 'netflix subscription', 1),
+(13, 5, 'candles', 4),
+(14, 5, 'wine', 2),
+(15, 5, 'condoms', 1),
+(16, 6, 'febreeze', 1),
+(17, 6, 'garbage bag', 3)
 
 --------------------------------------------------------
 
