@@ -1,5 +1,12 @@
 <?php
 
+/**
+ * Modified to use REST client to get port data from our server.
+ */
+define('REST_SERVER', 'http://backend.local');  // the REST server host
+define('REST_PORT', $_SERVER['SERVER_PORT']);   // the port you are running the server on
+
+
 class SuppliesModel extends CI_Model {
 
         var $data = array(
@@ -150,12 +157,12 @@ class SuppliesModel extends CI_Model {
 
         return null;
     }
-    
+
         // Add a supply item to the data.
         public function addSupply($supply) {
             array_push($this->data, $supply);
         }
-        
+
         // Delete a supply item from the data.
         public function deleteSupply($code) {
             foreach ($this->data as $supply) {
