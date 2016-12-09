@@ -13,6 +13,14 @@ class Admin extends Application {
 
     //Index Page for the Admin controller.
     public function index() {
+        if (!($this->session->userdata('userrole') == 'admin'))
+        {
+          $this->data['pagetitle'] = "Administrative Page";
+          $this->data['message'] = "Invalid Credentials for Page Access";
+          $this->data['pagebody'] = "error_view";
+          $this->render();
+          return;
+        }
         $recipes = $this->getRecipeViewData();
         $stock = $this->getStockViewData();
         $supplies = $this->getSuppliesViewData();
