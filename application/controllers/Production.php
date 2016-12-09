@@ -14,6 +14,14 @@ class Production extends Application {
 	 */
 	public function index()
 	{
+		if (!($this->session->userdata('userrole') == 'admin' || $this->session->userdata('userrole') == 'user'))
+		{
+			$this->data['pagetitle'] = "Production Page";
+			$this->data['message'] = "Invalid Credentials for Page Access";
+			$this->data['pagebody'] = "error_view";
+			$this->render();
+			return;
+		}
 		$recipes = $this->getViewData();
 		$this->data['recipes'] = $recipes;
 		$this->data['pagetitle'] = "Production Page";

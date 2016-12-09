@@ -21,6 +21,14 @@
          */
         public function index()
         {
+		        if (!($this->session->userdata('userrole') == 'admin' || $this->session->userdata('userrole') == 'user'))
+            {
+              $this->data['pagetitle'] =  'Receiving Page';
+              $this->data['message'] = "Invalid Credentials for Page Access";
+              $this->data['pagebody'] = "error_view";
+              $this->render();
+              return;
+            }
 
             $this->data['pagebody'] = 'receiving/receiving_view';
             $this->data['pagetitle'] = 'Receiving Page';
