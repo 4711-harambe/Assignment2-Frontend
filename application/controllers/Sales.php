@@ -15,20 +15,9 @@ class Sales extends Application {
 	{
                 $this->data['pagebody'] = 'sales/sales_view';
                 $this->data['pagetitle'] = 'Sales Page';
-		$stock = $this->stockModel->all();
+				$stock = $this->StockModel->all();
 
-                $stockList = array();
-
-                foreach ($stock as $item)
-                {
-                    $stockList[] = array (
-                        'code' => $item['code'],
-                        'description' => $item['description'],
-                        'sellingPrice' => $item['sellingPrice'],
-			'link' => str_replace(' ', '_', $item['code']),
-                        'quantityOnHand' => $item['quantityOnHand']);
-                }
-                $this->data['stock'] = $stockList;
+                $this->data['stock'] = $stock;
 
                 $this->render();
 	}
