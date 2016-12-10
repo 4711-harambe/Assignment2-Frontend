@@ -50,8 +50,8 @@ INSERT INTO `ci_sessions` (`id`, `ip_address`, `timestamp`, `data`) VALUES
 -- Table structure for table `stock`
 --
 
-DROP TABLE IF EXISTS `stock`;
-CREATE TABLE `stock` (
+DROP TABLE IF EXISTS `StockModel`;
+CREATE TABLE `StockModel` (
   `id` int(11) NOT NULL,
   `code` varchar(32) NOT NULL,
   `description` varchar(256) NOT NULL,
@@ -63,7 +63,7 @@ CREATE TABLE `stock` (
 -- Dumping data for table `stock`
 --
 
-INSERT INTO `stock` (`id`, `code`, `description`, `sellingPrice`, `quantityOnHand`) VALUES
+INSERT INTO `StockModel` (`id`, `code`, `description`, `sellingPrice`, `quantityOnHand`) VALUES
 (1, 'Breakfact', 'The most important meal of the day!', 6, 5),
 (2, 'Lunch', 'Something to tide you over.', 9, 8),
 (3, 'Dinner', 'The meat and potatoes of the day.', 35, 10),
@@ -77,7 +77,7 @@ INSERT INTO `stock` (`id`, `code`, `description`, `sellingPrice`, `quantityOnHan
 -- Indexes for table `stock`
 --
 
-ALTER TABLE `stock`
+ALTER TABLE `StockModel`
   ADD PRIMARY KEY (`id`);
 
 -- --------------------------------------------------------
@@ -86,8 +86,8 @@ ALTER TABLE `stock`
 -- Table structure for table `recipes`
 --
 
-DROP TABLE IF EXISTS `recipes`;
-CREATE TABLE `recipes` (
+DROP TABLE IF EXISTS `RecipesModel`;
+CREATE TABLE `RecipesModel` (
 `id` int (11) NOT NULL,
 `code` varchar(32) NOT NULL,
 `description` varchar(256) NOT NULL,
@@ -98,7 +98,7 @@ CREATE TABLE `recipes` (
 -- Dumping data for table `recipes`
 --
 
-INSERT INTO `recipes` (`id`, `code`, `description`, `ingredientsCode`) VALUES
+INSERT INTO `RecipesModel` (`id`, `code`, `description`, `ingredientsCode`) VALUES
 (1, 'Breakfast', 'The most important meal of the day!', 1),
 (2, 'Lunch', 'Something to tide you over.', 2),
 (3, 'Dinner', 'The meat and potatoes of the day.',3),
@@ -112,7 +112,7 @@ INSERT INTO `recipes` (`id`, `code`, `description`, `ingredientsCode`) VALUES
 -- Indexes for table `stock`
 --
 
-ALTER TABLE `recipes`
+ALTER TABLE `RecipesModel`
     ADD PRIMARY KEY (`id`);
 
 -- --------------------------------------------------------

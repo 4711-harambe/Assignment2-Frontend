@@ -1,11 +1,11 @@
 <?php
 
-class RecipesModel extends CI_Model {
+class RecipesModel extends MY_Model {
 
         // Recipe information hard-coded to avoid implementing database.
 	var $data = array(
-            array('code' => 'Breakfast', 
-                'description' => 'The most important meal of the day!', 
+            array('code' => 'Breakfast',
+                'description' => 'The most important meal of the day!',
                 'ingredients' => array(
                     array('ingredient' => 'pizza slice', 'amount' => 2))),
             array('code' => 'Lunch',
@@ -45,35 +45,4 @@ class RecipesModel extends CI_Model {
 	{
 		parent::__construct();
 	}
-
-	// Retrieve all the recipes
-	public function all()
-	{
-		return $this->data;
-	}
-
-        // Retrieve a single recipe.
-        public function singleRecipe($recipeCode) {
-            foreach ($this->data as $recipe) {
-                if ($recipe['code'] == $recipeCode) {
-                    return $recipe;
-                }
-            }
-
-            return null;
-        }
-        
-        // Add a recipe to the data.
-        public function addRecipe($recipe) {
-            array_push($this->data, $recipe);
-        }
-        
-        // Delete a recipe item from the data.
-        public function deleteRecipe($code) {
-            foreach ($this->data as $recipe) {
-                if ($recipe['code'] == $code) {
-                    unset($this->data[$code]);
-                }
-            }
-        }
 }
