@@ -6,9 +6,6 @@ class Admin extends Application {
 
     public function __construct() {
         parent::__construct();
-        $this->load->model('recipesModel');
-        $this->load->model('suppliesModel');
-        $this->load->model('stockModel');
     }
 
     //Index Page for the Admin controller.
@@ -21,9 +18,9 @@ class Admin extends Application {
           $this->render();
           return;
         }
-        $recipes = $this->getRecipeViewData();
-        $stock = $this->getStockViewData();
-        $supplies = $this->getSuppliesViewData();
+        $recipes = $this->RecipesModel->all();
+        $stock = $this->StockModel->all();
+        $supplies = $this->SuppliesModel->all();
         $this->data['recipes'] = $recipes;
         $this->data['stock'] = $stock;
         $this->data['supplies'] = $supplies;

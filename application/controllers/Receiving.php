@@ -32,21 +32,9 @@
 
             $this->data['pagebody'] = 'receiving/receiving_view';
             $this->data['pagetitle'] = 'Receiving Page';
-            $supplies = $this->suppliesModel->all();
+            $supplies = $this->SuppliesModel->all();
 
-            $supplyList = array();
-
-            foreach ($supplies as $supply)
-            {
-                $supplyList[] = array (
-                    'id' => $supply['id'],
-                    'code' => $supply['code'],
-                    'description' => $supply['description'],
-                    'receivingCost' => $supply['receivingCost'],
-                    'stockingUnit' => $supply['stockingUnit'],
-                    'quantityOnHand' => $supply['quantityOnHand']);
-            }
-            $this->data['supplies'] = $supplyList;
+            $this->data['supplies'] = $supplies;
             $this->render();
         }
 
