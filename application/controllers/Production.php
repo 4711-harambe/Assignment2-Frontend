@@ -5,9 +5,6 @@ class Production extends Application {
 
 	public function __construct() {
 		parent::__construct();
-		$this->load->model('recipesModel');
-		$this->load->model('suppliesModel');
-		$this->load->model('stockModel');
 	}
 	/**
 	 * Index Page for the Production controller.
@@ -22,7 +19,7 @@ class Production extends Application {
 			$this->render();
 			return;
 		}
-		$recipes = $this->getViewData();
+		$recipes = $this->RecipesModel->all();
 		$this->data['recipes'] = $recipes;
 		$this->data['pagetitle'] = "Production Page";
 		$this->data['pagebody'] = 'production_view';
