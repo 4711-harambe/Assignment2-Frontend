@@ -4,6 +4,7 @@
 		<tr>
 			<th>Recipe Name</th>
 			<th>Description</th>
+			<th>Current Stock</th>
 			<th>Ingredients ( In Stock / Required )</th>
 			<th>Can Produce?</th>
 			<th></th>
@@ -14,6 +15,7 @@
         <tr>
 			<th>{code}</th>
 			<td>{description}</td>
+			<td>{stock}</td>
 			<td>
 				<ul>
 					{ingredients}
