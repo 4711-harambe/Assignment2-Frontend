@@ -60,6 +60,7 @@ class Sales extends Application {
 		$currentStock = $stock->quantityOnHand;
 		$updatedStock = array("id" => $stockID, "quantityOnHand" => $currentStock - 1);
 		$this->StockModel->update($updatedStock);
+
 		redirect('/sales', 'refresh');
 	}
 

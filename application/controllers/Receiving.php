@@ -34,8 +34,44 @@
             $this->data['pagetitle'] = 'Receiving Page';
             $supplies = $this->SuppliesModel->all();
 
+            foreach ($supplies as &$supply) {
+                $supply->form = '<form method="post" action="receiving/updateSupply" enctype="multipart/form-data">
+                                    <input type="hidden" name="id" value=' . $supply->id . '>
+                                    <tr>
+                                        <td>
+                                            <strong>' . $supply->id . '</strong>
+                                        </td>
+                                        <td>' . $supply->code . '</td>
+                                        <td>' . $supply->description . '</td>
+                                        <input type="hidden" name="description" value="' . $supply->description . '">
+                                        <td>' . $supply->receivingCost . '</td>
+                                        <td>' . $supply->quantityOnHand . '</td>
+                                        <td><input type="number" name="quantity"></td>
+                                        <td><button class="btn btn-primary">Update</button></td>
+                                    </tr>
+                                </form>';
+            }
+
             $this->data['supplies'] = $supplies;
             $this->render();
+        }
+
+        public function updateSupply() {
+            $this->load->helper(['form', 'url']);
+            $this->load->library('form_validation');
+            $this->form_validation->set_rules('id', 'ID', 'required|integer');
+            $this->form_validation->set_rules('description', 'Description', 'required');
+            $this->form_validation->set_rules('quantity', 'Quantity', 'required|integer');
+            if ($this->form_validation->run() == FALSE) {
+                redirect('/admin/editSupply/' . $this->input->post('id'), 'refresh');
+            } else {
+                //success
+                $updatedSupply = array("id" => $this->input->post('id'),
+                                       "description" => $this->input->post('description'),
+                                       "quantityOnHand" => $this->input->post('quantity'));
+        		$this->SuppliesModel->update($updatedSupply);
+                redirect('/receiving', 'refresh');
+            }
         }
 
         public function showDetails($id)
@@ -53,4 +89,5 @@
 
             $this->render();
         }
+
     }

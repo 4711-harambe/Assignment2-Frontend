@@ -2,7 +2,6 @@
 <hr>
 
 <h1>Stock</h1>
-<a class="btn btn-success" type="button" href="admin/addStock">Add</a>
 <div class="table-responsive">
     <table class="table" action="">
         <thead>
@@ -17,7 +16,7 @@
             {stock}
             <tr>
                 <td>
-                    <a href="sales/item_view/{link}">{code}</a>
+                    <strong>{code}</strong>
                 </td>
                 <td>{description}</td>
                 <td>${sellingPrice}</td>
@@ -33,7 +32,6 @@
 <hr>
 
 <h1>Supplies</h1>
-<input class="btn btn-success" type="submit" value="Add">
 <div class="table-responsive">
     <table class="table" action="">
         <thead>
@@ -64,7 +62,6 @@
 </div>
 
 <h1>Recipes</h1>
-<input class="btn btn-success" type="submit" value="Add">
 <div class="table-responsive">
     <table class="table" action="">
         <thead>
@@ -78,7 +75,7 @@
             {recipes}
             <tr>
                 <td>
-                    <a href="sales/item_view/{link}">{code}</a>
+                    <strong>{code}</strong>
                 </td>
                 <td>{description}</td>
                 <td><ul>{ingredients}</ul></td>

@@ -209,7 +209,8 @@ class Admin extends Application {
     }
 
     // Delete supply item from data model.
-    public function deleteSupply($code) {
+    public function deleteSupply($supplyID) {
+        $this->SuppliesModel->delete($supplyID);
         redirect('/admin', 'refresh');
     }
 
