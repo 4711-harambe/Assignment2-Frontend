@@ -49,14 +49,14 @@
             {supplies}
             <tr>
                 <td>
-                    <a href="sales/item_view/{link}">{code}</a>
+                    <strong>{code}</strong>
                 </td>
                 <td>{description}</td>
                 <td>${receivingCost}</td>
                 <td>{stockingUnit}</td>
                 <td>{quantityOnHand}</td>
-                <td><input class="btn btn-primary" type="submit" value="Edit"></td>
-                <td><input class="btn btn-danger" type="submit" value="Delete"></td>
+                <td>{editButton}</td>
+                <td>{deleteButton}</td>
             </tr>
             {/supplies}
         </form>
