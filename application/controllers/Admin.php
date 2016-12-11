@@ -34,7 +34,13 @@ class Admin extends Application {
             $stockItem->deleteButton = '<a class="btn btn-danger" type="button" href="admin/deleteStock/' . $stockItem->id . '">Delete</a>';
             $stockItem->editButton = '<a class="btn btn-primary" type="button" href="admin/editStock/' . $stockItem->id . '">Edit</a>';
         }
+
         $supplies = $this->SuppliesModel->all();
+        foreach ($supplies as &$supply) {
+            $supply->deleteButton = '<a class="btn btn-danger" type="button" href="admin/deleteSupply/' . $supply->id . '">Delete</a>';
+            $supply->editButton = '<a class="btn btn-primary" type="button" href="admin/editSupply/' . $supply->id . '">Edit</a>';
+        }
+
         $this->data['recipes'] = $recipes;
         $this->data['stock'] = $stock;
         $this->data['supplies'] = $supplies;
@@ -43,67 +49,6 @@ class Admin extends Application {
         $this->data['pagebody'] = 'admin_view';
 
         $this->render();
-    }
-
-
-    // Get the recipe data for the view.
-    public function getRecipeViewData() {
-        $recipes = $this->recipesModel->all();
-        foreach ($recipes as &$recipe) {
-            $can_produce = TRUE;
-            foreach ($recipe['ingredients'] as $ingredient) {
-                $ingredient['amt_in_stock'] = $this->getSupplyCount($ingredient['ingredient']);
-                if ($ingredient['amt_in_stock'] < $ingredient['amount']) {
-                    $can_produce = FALSE;
-                }
-            }
-            $recipe['can_produce'] = $can_produce;
-            $recipe['prod_link'] = str_replace(' ', '_', $recipe['code']);
-        }
-        return $recipes;
-    }
-
-    public function getSupplyCount($code) {
-		$supplyCount = $this->suppliesModel->singleSupply($code)['quantityOnHand'];
-		return $supplyCount;
-	}
-
-    //Get the stock data for the view.
-    public function getStockViewData() {
-        $stock = $this->stockModel->all();
-
-        $stockList = array();
-
-        foreach ($stock as $item) {
-            $stockList[] = array(
-                'code' => $item['code'],
-                'description' => $item['description'],
-                'sellingPrice' => $item['sellingPrice'],
-                'link' => str_replace(' ', '_', $item['code']),
-                'quantityOnHand' => $item['quantityOnHand']);
-        }
-        $this->data['stock'] = $stockList;
-
-        return $stockList;
-    }
-
-    // Get the supplies data for the view.
-    public function getSuppliesViewData() {
-        $supplies = $this->suppliesModel->all();
-
-        $supplyList = array();
-
-        foreach ($supplies as $supply) {
-            $supplyList[] = array(
-                'id' => $supply['id'],
-                'code' => $supply['code'],
-                'description' => $supply['description'],
-                'receivingCost' => $supply['receivingCost'],
-                'stockingUnit' => $supply['stockingUnit'],
-                'quantityOnHand' => $supply['quantityOnHand']);
-        }
-
-        return $supplyList;
     }
 
     // Add a recipe to the data model.
@@ -168,7 +113,6 @@ class Admin extends Application {
 
         $this->render();
     }
-
     public function updateStock() {
         $this->load->helper(['form', 'url']);
         $this->load->library('form_validation');
@@ -177,7 +121,6 @@ class Admin extends Application {
         $this->form_validation->set_rules('price', 'Price', 'required|decimal');
         $this->form_validation->set_rules('quantity', 'Quantity', 'required|integer');
         if ($this->form_validation->run() == FALSE) {
-            // do shit
             $this->phpAlert("The form was incorrectly filled out. Please try again.");
             redirect('/admin/editStock/' . $this->input->post('id'), 'refresh');
         } else {
@@ -192,11 +135,65 @@ class Admin extends Application {
         }
     }
 
-    // Edit a supply data model item.
-    public function editSupply($supplyCode) {
-        $normalCode = str_replace('_', ' ', $supplyCode);
-        $this->phpAlert("Supply item: " . $normalCode . " has been updated.");
-        redirect('/admin', 'refresh');
+    public function editSupply($supplyID) {
+        $this->load->helper(['html', 'form']);
+        $supply = $this->SuppliesModel->get($supplyID);
+        $this->data['code'] = $supply->code;
+        $this->data['form'] = '<form method="post" action="/admin/updateSupply" enctype="multipart/form-data">
+                                    <input type="hidden" name="id" value=' . $supply->id . '>
+                                    <tr>
+                                        <th>Description</th>
+                                        <td><input class="form-control" type="text" name="description" value="' . $supply->description . '" /></td>
+                                    </tr>
+                                    <tr>
+                                        <th>Price</th>
+                                        <td><input class="form-control" type="text" name="price" value=' . $supply->receivingCost . ' /></td>
+                                    </tr>
+                                    <tr>
+                                        <th>Receiving Unit</th>
+                                        <td><input class="form-control" type="text" name="receiving" value=' . $supply->receivingUnit . ' /></td>
+                                    </tr>
+                                    <tr>
+                                        <th>Stocking Unit</th>
+                                        <td><input class="form-control" type="text" name="stocking" value=' . $supply->stockingUnit . ' /></td>
+                                    </tr>
+                                    <tr>
+                                        <th>Quantity In Stock</th>
+                                        <td><input class="form-control" type="text" name="quantity" value=' . $supply->quantityOnHand . ' /></td>
+                                    </tr>
+                                    <tr>
+                                        <td></td>
+                                        <td><button class="btn btn-primary">Update</button><a class="btn btn-danger" type="button" href="/admin">Go Back</input></td>
+                                        <td>
+                                    </tr>
+                                </form>';
+
+        $this->data['pagebody'] = 'edit_supplies_view';
+
+        $this->render();
+    }
+
+    public function updateSupply() {
+        $this->load->helper(['form', 'url']);
+        $this->load->library('form_validation');
+        $this->form_validation->set_rules('id', 'ID', 'required|integer');
+        $this->form_validation->set_rules('description', 'Description', 'required');
+        $this->form_validation->set_rules('price', 'Price', 'required|decimal');
+        $this->form_validation->set_rules('quantity', 'Quantity', 'required|integer');
+        if ($this->form_validation->run() == FALSE) {
+            $this->phpAlert("The form was incorrectly filled out. Please try again.");
+            redirect('/admin/editSupply/' . $this->input->post('id'), 'refresh');
+        } else {
+            //success
+            $updatedSupply = array("id" => $this->input->post('id'),
+                                  "description" => $this->input->post('description'),
+                                  "receivingCost" => $this->input->post('price'),
+                                  "receivingUnit" => $this->input->post('receiving'),
+                                  "stockingUnit" => $this->input->post('stocking'),
+                                  "quantityOnHand" => $this->input->post('quantity'));
+    		$this->SuppliesModel->update($updatedSupply);
+            redirect('/admin', 'refresh');
+        }
     }
 
     // Delete Recipe from data model.
@@ -213,9 +210,6 @@ class Admin extends Application {
 
     // Delete supply item from data model.
     public function deleteSupply($code) {
-        $normalCode = str_replace('_', ' ', $code);
-        $this->suppliesModel->deleteSupply($normalCode);
-        $this->phpAlert("Deleted supply item: " . $normalCode);
         redirect('/admin', 'refresh');
     }
 

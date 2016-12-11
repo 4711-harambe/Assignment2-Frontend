@@ -54,10 +54,22 @@ class Production extends Application {
 	}
 
 	public function create($recipeID) {
+		$suppliesQuery = $this->SuppliesModel->all();
+		foreach ($suppliesQuery as $supply) {
+			$supplies[$supply->code] = $supply->quantityOnHand;
+		}
 		$stock = $this->StockModel->get($recipeID);
+		$recipe = $this->RecipesModel->get($recipeID);
 		$currentStock = $stock->quantityOnHand;
 		$updatedStock = array("id" => $recipeID, "quantityOnHand" => $currentStock + 1);
 		$this->StockModel->update($updatedStock);
+
+		$ingredients = $this->db->query("SELECT * FROM Ingredients WHERE ingredientsCode = ?", array($recipe->ingredientsCode));
+		foreach ($ingredients->result() as &$row) {
+			$supply= $this->SuppliesModel->get()
+			$updatedSupply = array("id" => $row->id, "quantityOnHand" => $supplies[$row->ingredient] - $row->amount);
+			$this->SuppliesModel->update($updatedSupply);
+		}
 
 		// Add logic to reduce Supplies level
         redirect('/production', 'refresh');
