@@ -11,9 +11,7 @@
         <form>
             {stock}
             <tr>
-                <td>
-                    <a href="sales/item_view/{link}">{code}</a>
-                </td>
+                <td>{detailsLink}</td>
                 <td>{description}</td>
                 <td>${sellingPrice}</td>
                 <td>{quantityOnHand}</td>
