@@ -58,6 +58,8 @@ class Production extends Application {
 		$currentStock = $stock->quantityOnHand;
 		$updatedStock = array("id" => $recipeID, "quantityOnHand" => $currentStock + 1);
 		$this->StockModel->update($updatedStock);
+
+		// Add logic to reduce Supplies level
         redirect('/production', 'refresh');
 	}
 }

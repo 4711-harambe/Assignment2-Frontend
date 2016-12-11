@@ -32,6 +32,7 @@ class Admin extends Application {
         $stock = $this->StockModel->all();
         foreach ($stock as &$stockItem) {
             $stockItem->deleteButton = '<a class="btn btn-danger" type="button" href="admin/deleteStock/' . $stockItem->id . '">Delete</a>';
+            $stockItem->editButton = '<a class="btn btn-primary" type="button" href="admin/editStock/' . $stockItem->id . '">Edit</a>';
         }
         $supplies = $this->SuppliesModel->all();
         $this->data['recipes'] = $recipes;
@@ -43,6 +44,7 @@ class Admin extends Application {
 
         $this->render();
     }
+
 
     // Get the recipe data for the view.
     public function getRecipeViewData() {
@@ -136,10 +138,58 @@ class Admin extends Application {
     }
 
     // Edit a stock data model item.
-    public function editStock($stockCode) {
-        $normalCode = str_replace('_', ' ', $stockCode);
-        $this->phpAlert("Stock item: " . $normalCode . " has been updated.");
-        redirect('/admin', 'refresh');
+    public function editStock($stockID) {
+        $this->load->helper(['html', 'form']);
+        $stock = $this->StockModel->get($stockID);
+        $this->data['code'] = $stock->code;
+        $this->data['form'] = '<form method="post" action="/admin/updateStock">
+                                    <input type="hidden" name="id" value=' . $stock->id . '>
+                                    <tr>
+                                        <th>Description</th>
+                                        <td><input class="form-control" type="text" name="description" value="' . $stock->description . '" /></td>
+                                    </tr>
+                                    <tr>
+                                        <th>Price</th>
+                                        <td><input class="form-control" type="text" name="price" value=' . $stock->sellingPrice . ' /></td>
+                                    </tr>
+                                    <tr>
+                                        <th>Quantity In Stock</th>
+                                        <td><input class="form-control" type="text" name="quantity" value=' . $stock->quantityOnHand . ' /></td>
+                                    </tr>
+                                    <tr>
+                                        <td></td>
+                                        <td><button class="btn btn-primary">Update</button><a class="btn btn-danger" type="button" href="/admin">Go Back</input></td>
+                                        <td>
+                                    </tr>
+                                </form>';
+
+
+        $this->data['pagebody'] = 'edit_stock_view';
+
+        $this->render();
+    }
+
+    public function updateStock() {
+        $this->load->helper(['form', 'url']);
+        $this->load->library('form_validation');
+        $this->form_validation->set_rules('id', 'ID', 'required|integer');
+        $this->form_validation->set_rules('description', 'Description', 'required');
+        $this->form_validation->set_rules('price', 'Price', 'required|decimal');
+        $this->form_validation->set_rules('quantity', 'Quantity', 'required|integer');
+        if ($this->form_validation->run() == FALSE) {
+            // do shit
+            $this->phpAlert("The form was incorrectly filled out. Please try again.");
+            redirect('/admin/editStock/' . $this->input->post('id'), 'refresh');
+        } else {
+            //success
+            $updatedStock = array("id" => $this->input->post('id'),
+                                  "description" => $this->input->post('description'),
+                                  "quantityOnHand" => $this->input->post('quantity'),
+                                  "sellingPrice" => $this->input->post('price'));
+    		$this->StockModel->update($updatedStock);
+            $this->phpAlert("Success");
+            redirect('/admin', 'refresh');
+        }
     }
 
     // Edit a supply data model item.
