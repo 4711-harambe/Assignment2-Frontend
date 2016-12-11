@@ -9,27 +9,8 @@
         <th>In Stock</th>
         <th>Update Quantity</th>
         </thead>
-        <form>
             {supplies}
-            <tr>
-                <td>
-                    <a href="receiving/details_view/{id}">{id}</a>
-                </td>
-                <td>{code}</td>
-                <td>{description}</td>
-                <td>{receivingCost}</td>
-                <td>{quantityOnHand}</td>
-                <td><input name={quantityOnHand} type="number"></td>
-            </tr>
+                {form}
             {/supplies}
-            <tr>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td><input class="btn btn-primary" type="submit" value="Update Quantity"></td>
-            </tr>
-        </form>
     </table>
 </div>
