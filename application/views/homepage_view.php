@@ -4,7 +4,7 @@
 </div>
 
 <div style="width:80%; margin:auto; margin-top:1em">
-<table class="table" style="width:500px  margin:auto">
+<table class="table" style="width:500px">
   <thead>
     <tr>
       <th>Money Spent</th>
