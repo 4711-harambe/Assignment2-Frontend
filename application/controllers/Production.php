@@ -19,7 +19,29 @@ class Production extends Application {
 			$this->render();
 			return;
 		}
+
+		$suppliesQuery = $this->SuppliesModel->all();
+		foreach ($suppliesQuery as $supply) {
+			$supplies[$supply->code] = $supply->quantityOnHand;
+		}
+
 		$recipes = $this->RecipesModel->all();
+		foreach ($recipes as &$recipe) {
+			$can_produce = TRUE;
+			$recipe->ingredients = '';
+			$ingredients = $this->db->query("SELECT * FROM Ingredients WHERE ingredientsCode = ?", array($recipe->ingredientsCode));
+			foreach ($ingredients->result() as $row) {
+				if ($supplies[$row->ingredient] < $row->amount) {
+					$can_produce = FALSE;
+				}
+				$recipe->ingredients .= '<li>' . $row->ingredient . ' ( ' . $supplies[$row->ingredient] . ' / ' . $row->amount . ' )</li>';
+			}
+			if ($can_produce) {
+				$recipe->produceButton = "<a type='button' class='btn btn-primary' href={prod_link}>Create</a>";
+			} else {
+				$recipe->produceButton = '';
+			}
+		}
 		$this->data['recipes'] = $recipes;
 		$this->data['pagetitle'] = "Production Page";
 		$this->data['pagebody'] = 'production_view';

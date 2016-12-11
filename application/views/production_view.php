@@ -14,8 +14,12 @@
         <tr>
 			<th>{code}</th>
 			<td>{description}</td>
-			<td>{can_produce}</td>
-			<td><a type='button' class='btn btn-primary' href={prod_link}>Create</a></td>
+			<td>
+				<ul>
+					{ingredients}
+				</ul>
+			</td>
+			<td>{produceButton}</td>
         </tr>
         {/recipes}
 	</tbody>

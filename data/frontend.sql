@@ -121,8 +121,8 @@ ALTER TABLE `RecipesModel`
 -- Table structure for table `recipes`
 --
 
-DROP TABLE IF EXISTS `ingredients`;
-CREATE TABLE `ingredients` (
+DROP TABLE IF EXISTS `Ingredients`;
+CREATE TABLE `Ingredients` (
 `id` int (11) NOT NULL,
 `ingredientsCode` int(11) NOT NULL,
 `ingredient` varchar(256) NOT NULL,
@@ -133,25 +133,25 @@ CREATE TABLE `ingredients` (
 -- Dumping data for table `recipes`
 --
 
-INSERT INTO `ingredients` (`id`, `ingredientsCode`, `ingredient`, `amount`) VALUES
-(1, 1, 'pizza slice', 2),
-(2, 2, 'kraft Dinner', 1),
-(3, 2, 'mountain Dew', 1),
-(4, 3, 'steak', 1),
-(5, 3, 'baked potato', 1),
-(6, 3, 'asparagus spear', 4),
-(7, 3, 'beer', 1),
-(8, 4, 'deck of cards', 1),
-(9, 4, 'poker chips', 1),
-(10, 4, 'cigars', 5),
-(11, 4, 'chips', 3),
-(12, 4, 'beer', 24),
-(13, 5, 'netflix subscription', 1),
-(14, 5, 'candles', 4),
-(15, 5, 'wine', 2),
-(16, 5, 'condoms', 1),
-(17, 6, 'febreeze', 1),
-(18, 6, 'garbage bag', 3);
+INSERT INTO `Ingredients` (`id`, `ingredientsCode`, `ingredient`, `amount`) VALUES
+(1, 1, 'Pizza Slice', 2),
+(2, 2, 'Kraft Dinner', 1),
+(3, 2, 'Mountain Dew', 1),
+(4, 3, 'Steak', 1),
+(5, 3, 'Baked Potato', 1),
+(6, 3, 'Asparagus Spear', 4),
+(7, 3, 'Beer', 1),
+(8, 4, 'Deck of Cards', 1),
+(9, 4, 'Poker Chips', 1),
+(10, 4, 'Cigars', 5),
+(11, 4, 'Chips', 3),
+(12, 4, 'Beer', 24),
+(13, 5, 'Netflix Subscription', 1),
+(14, 5, 'Candles', 4),
+(15, 5, 'Wine', 2),
+(16, 5, 'Condoms', 1),
+(17, 6, 'Febreeze', 1),
+(18, 6, 'Garbage Bag', 3);
 
 -- ------------------------------------------------------
 
@@ -159,5 +159,5 @@ INSERT INTO `ingredients` (`id`, `ingredientsCode`, `ingredient`, `amount`) VALU
 -- Indexes for table `stock`
 --
 
-ALTER TABLE `ingredients`
+ALTER TABLE `Ingredients`
     ADD PRIMARY KEY (`id`);
