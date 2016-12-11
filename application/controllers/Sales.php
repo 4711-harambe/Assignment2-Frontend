@@ -85,7 +85,7 @@ class Sales extends Application {
         $xml->addChild('number', $id);
         $xml->addChild('datetime', $dateTime);
         $xml->addChild('itemName', $stock->code);
-        $xml->addChild('itemName', $stock->sellingPrice);
+        $xml->addChild('sellingPrice', $stock->sellingPrice);
 
         $xml->asXML('../data/stockPurchase' . $id . '.xml');
     }

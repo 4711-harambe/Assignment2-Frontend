@@ -79,8 +79,30 @@ class Production extends Application {
 								   "description" => $supplies[$row->ingredient]["description"]);
 			$this->SuppliesModel->update($updatedSupply);
 		}
+                
+                $this->LogRecipeCreate($recipe);
 
 		// Add logic to reduce Supplies level
 		redirect('/production', 'refresh');
 	}
+        
+    public function LogRecipeCreate($recipe) {
+        $id = rand(100, 999);
+
+        // use this if the file doesn't exist
+        while (file_exists('../data/recipeCreate' . $id . '.xml')) {
+            $id = rand(100, 999);
+        }
+        // and establish the checkout time
+        $dateTime = date(DATE_ATOM);
+
+        // start empty
+        $xml = new SimpleXMLElement('<createRecipe/>');
+
+        $xml->addChild('number', $id);
+        $xml->addChild('datetime', $dateTime);
+        $xml->addChild('recipeName', $recipe->code);
+
+        $xml->asXML('../data/recipeCreate' . $id . '.xml');
+    }       
 }
