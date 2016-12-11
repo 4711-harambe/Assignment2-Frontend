@@ -64,7 +64,7 @@ CREATE TABLE `StockModel` (
 --
 
 INSERT INTO `StockModel` (`id`, `code`, `description`, `sellingPrice`, `quantityOnHand`) VALUES
-(1, 'Breakfact', 'The most important meal of the day!', 6, 5),
+(1, 'Breakfast', 'The most important meal of the day!', 6, 5),
 (2, 'Lunch', 'Something to tide you over.', 9, 8),
 (3, 'Dinner', 'The meat and potatoes of the day.', 35, 10),
 (4, 'Poker Night', 'Just you and the fellas rippin it up!', 200, 6),
