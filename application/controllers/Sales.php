@@ -5,8 +5,6 @@ class Sales extends Application {
 
 	public function __construct() {
 		parent::__construct();
-                $this->load->model('stockModel');
-                $this->load->model('recipesModel');
 	}
 	/**
 	 * Index Page for the Production controller.

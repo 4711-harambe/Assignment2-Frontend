@@ -46,31 +46,29 @@ INSERT INTO `ci_sessions` (`id`, `ip_address`, `timestamp`, `data`) VALUES
 ('5cfad1bb303b132bc5050632849c26303b210c6f', '127.0.0.1', 1480100558, 0x5f5f63695f6c6173745f726567656e65726174657c693a313438303130303535383b),
 ('48aef2305f2227934e87a68e8795a2f9b7123156', '127.0.0.1', 1480100634, 0x5f5f63695f6c6173745f726567656e65726174657c693a313438303130303632383b);
 
--- --------------------------------------------------------
-
 --
 -- Table structure for table `stock`
 --
 
-DROP TABLE IF EXISTS `stock`;
-CREATE TABLE `stock` (
-`id` int(11) NOT NULL,
-`code` varchar(32) NOT NULL,
-`description` varchar(256) NOT NULL,
-`sellingPrice` decimal(5,2) NOT NULL,
-`quantityOnHand` decimal(3,0) NOT NULL,
+DROP TABLE IF EXISTS `StockModel`;
+CREATE TABLE `StockModel` (
+  `id` int(11) NOT NULL,
+  `code` varchar(32) NOT NULL,
+  `description` varchar(256) NOT NULL,
+  `sellingPrice` decimal(5,2) NOT NULL,
+  `quantityOnHand` decimal(3,0) NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `stock`
 --
 
-INSERT INTO `stock` (`id`, `code`, `description`, `sellingPrice`, `quantityOnHand`) VALUES
+INSERT INTO `StockModel` (`id`, `code`, `description`, `sellingPrice`, `quantityOnHand`) VALUES
 (1, 'Breakfact', 'The most important meal of the day!', 6, 5),
 (2, 'Lunch', 'Something to tide you over.', 9, 8),
 (3, 'Dinner', 'The meat and potatoes of the day.', 35, 10),
-(4, 'Poker Night', 'Just you and the fellas rippin it up!', 250, 6),
-(5, 'Date Night', 'Netflix and chill?', 74.99, 3),
+(4, 'Poker Night', 'Just you and the fellas rippin it up!', 200, 6),
+(5, 'Date Night', 'Netflix and chill?', 59.99, 3),
 (6, 'House Cleaning', 'For that once ever couple of months occassion', 17, 3);
 
 -- --------------------------------------------------------
@@ -79,8 +77,8 @@ INSERT INTO `stock` (`id`, `code`, `description`, `sellingPrice`, `quantityOnHan
 -- Indexes for table `stock`
 --
 
-ALTER TABLE `stock`
-ADD PRIMARY KEY (`id`);
+ALTER TABLE `StockModel`
+  ADD PRIMARY KEY (`id`);
 
 -- --------------------------------------------------------
 
@@ -88,8 +86,8 @@ ADD PRIMARY KEY (`id`);
 -- Table structure for table `recipes`
 --
 
-DROP TABLE IF EXISTS `recipes`
-CREATE TABLE `recipes` (
+DROP TABLE IF EXISTS `RecipesModel`;
+CREATE TABLE `RecipesModel` (
 `id` int (11) NOT NULL,
 `code` varchar(32) NOT NULL,
 `description` varchar(256) NOT NULL,
@@ -100,7 +98,7 @@ CREATE TABLE `recipes` (
 -- Dumping data for table `recipes`
 --
 
-INSERT INTO `recipes` (`id`, `code`, `description`, `ingredientCode`) VALUES
+INSERT INTO `RecipesModel` (`id`, `code`, `description`, `ingredientsCode`) VALUES
 (1, 'Breakfast', 'The most important meal of the day!', 1),
 (2, 'Lunch', 'Something to tide you over.', 2),
 (3, 'Dinner', 'The meat and potatoes of the day.',3),
@@ -108,14 +106,14 @@ INSERT INTO `recipes` (`id`, `code`, `description`, `ingredientCode`) VALUES
 (5, 'Date Night', 'Netflix and chill?', 5),
 (6, 'House Cleaning', 'For that once ever couple of months occassion', 6);
 
---------------------------------------------------------
+-- ------------------------------------------------------
 
 --
 -- Indexes for table `stock`
 --
 
-ALTER TABLE `recipes`
-ADD PRIMARY KEY (`id`);
+ALTER TABLE `RecipesModel`
+    ADD PRIMARY KEY (`id`);
 
 -- --------------------------------------------------------
 
@@ -123,7 +121,7 @@ ADD PRIMARY KEY (`id`);
 -- Table structure for table `recipes`
 --
 
-DROP TABLE IF EXISTS `ingredients`
+DROP TABLE IF EXISTS `Ingredients`;
 CREATE TABLE `ingredients` (
 `id` int (11) NOT NULL,
 `ingredientsCode` int(11) NOT NULL,
@@ -135,34 +133,34 @@ CREATE TABLE `ingredients` (
 -- Dumping data for table `recipes`
 --
 
-INSERT INTO `ingredients` (`id`, `ingredientsCode`, `ingredient`, `amount`) VALUES
-(1, 1, 'pizza slice', 2),
-(2, 2, 'kraft Dinner', 1),
-(3, 2, 'mountain Dew', 1),
-(4, 3, 'steak', 1),
-(5, 3, 'baked potato', 1),
-(6, 3, 'asparagus spear', 4),
-(7, 3, 'beer', 1),
-(8, 4, 'deck of cards', 1),
-(9, 4, 'poker chips', 1),
-(10, 4, 'cigars', 5),
-(11, 4, 'chips', 3),
-(12, 4, 'beer', 3),
-(13, 5, 'netflix subscription', 1),
-(13, 5, 'candles', 4),
-(14, 5, 'wine', 2),
-(15, 5, 'condoms', 1),
-(16, 6, 'febreeze', 1),
-(17, 6, 'garbage bag', 3);
+INSERT INTO `Ingredients` (`id`, `ingredientsCode`, `ingredient`, `amount`) VALUES
+(1, 1, 'Pizza Slice', 2),
+(2, 2, 'Kraft Dinner', 1),
+(3, 2, 'Mountain Dew', 1),
+(4, 3, 'Steak', 1),
+(5, 3, 'Baked Potato', 1),
+(6, 3, 'Asparagus Spear', 4),
+(7, 3, 'Beer', 1),
+(8, 4, 'Deck of Cards', 1),
+(9, 4, 'Poker Chips', 1),
+(10, 4, 'Cigars', 5),
+(11, 4, 'Chips', 3),
+(12, 4, 'Beer', 24),
+(13, 5, 'Netflix Subscription', 1),
+(14, 5, 'Candles', 4),
+(15, 5, 'Wine', 2),
+(16, 5, 'Condoms', 1),
+(17, 6, 'Febreeze', 1),
+(18, 6, 'Garbage Bag', 3);
 
---------------------------------------------------------
+-- ------------------------------------------------------
 
 --
 -- Indexes for table `stock`
 --
 
-ALTER TABLE `ingredientsConsumed`
-ADD PRIMARY KEY (`id`);
+ALTER TABLE `ingredients`
+    ADD PRIMARY KEY (`id`);
 
 -- --------------------------------------------------------
 
@@ -170,8 +168,8 @@ ADD PRIMARY KEY (`id`);
 -- Table structure for table `ingredientsConsumed`
 --
 
-DROP TABLE IF EXISTS `ingredientsConsumed`
-CREATE TABLE `ingredientsConsumed` (
+DROP TABLE IF EXISTS `IngredientsConsumed`;
+CREATE TABLE `IngredientsConsumed` (
 `id` int (11) NOT NULL,
 `code` varchar(32) NOT NULL,
 `amount` int(11) NOT NULL,
@@ -182,26 +180,25 @@ CREATE TABLE `ingredientsConsumed` (
 -- Dumping data for table `ingredientsConsumed`
 --
 
-INSERT INTO `ingredientsConsumed` (`id`, `code`, `amount`, `value`) VALUES
-(1, 'deck of cards', 4, 4),
-(2, 'poker chips', 4, 200),
-(3, 'chips', 6, 42),
-(4, 'cigars', 20, 300),
-(5, 'beer', 12, 300)
-(6, 'netflix subscription', 3, 29.97),
-(7, 'candles', 12, 60),
-(8, 'wine', 6, 90),
-(9, 'condoms', 3, 45);
+INSERT INTO `IngredientsConsumed` (`id`, `code`, `amount`, `value`) VALUES
+(1, 'Deck of Cards', 4, 4),
+(2, 'Poker Chips', 4, 200),
+(3, 'Chips', 6, 42),
+(4, 'Cigars', 20, 300),
+(5, 'Beer', 12, 300),
+(6, 'Netflix Subscription', 3, 29.97),
+(7, 'Candles', 12, 60),
+(8, 'Wine', 6, 90),
+(9, 'Condoms', 3, 45);
 
-
---------------------------------------------------------
+-- ------------------------------------------------------
 
 --
 -- Indexes for table `ingredientsConsumed`
 --
 
-ALTER TABLE `ingredientsConsumed`
-ADD PRIMARY KEY (`id`);
+ALTER TABLE `IngredientsConsumed`
+	ADD PRIMARY KEY (`id`);
 
 -- --------------------------------------------------------
 
@@ -209,11 +206,11 @@ ADD PRIMARY KEY (`id`);
 -- Table structure for table `log`
 --
 
-DROP TABLE IF EXISTS `log`
+DROP TABLE IF EXISTS `log`;
 CREATE TABLE `log` (
 `id` int (11) NOT NULL,
 `spentPurchasing` decimal(9,2) NOT NULL,
-`earnedSales` decimal(9,2) NOT NULL,
+`earnedSales` decimal(9,2) NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 --
@@ -224,7 +221,7 @@ INSERT INTO `log` (`id`, `spentPurchasing`, `earnedSales`) VALUES
 (1, 10000, 17500);
 
 
---------------------------------------------------------
+-- ------------------------------------------------------
 
 --
 -- Indexes for table `log`
@@ -232,4 +229,3 @@ INSERT INTO `log` (`id`, `spentPurchasing`, `earnedSales`) VALUES
 
 ALTER TABLE `log`
 ADD PRIMARY KEY (`id`);
-
