@@ -15,46 +15,42 @@ class Sales extends Application {
                 $this->data['pagetitle'] = 'Sales Page';
 				$stock = $this->StockModel->all();
 				foreach ($stock as &$stockItem) {
-					$can_buy = TRUE;
-					if ($stockItem->quantityOnHand < 1) {
-						$can_buy = FALSE;
-					}
-					if ($can_buy) {
+					if ($stockItem->quantityOnHand > 0) {
 						$stockItem->buyButton = "<a type='button' class='btn btn-primary' href='/sales/buy/" . $stockItem->id . "'>Buy</a>";
 					} else {
 						$stockItem->buyButton = "<a type='button' class='btn btn-danger' disabled>Buy</a>";
 					}
+					$stockItem->detailsLink = "<a href='sales/item_view/" . $stockItem->id . "'>" . $stockItem->code . "</a>";
 				}
 
                 $this->data['stock'] = $stock;
-
                 $this->render();
 	}
 
-    public function showDetails($code)
+    public function showDetails($recipeID)
     {
-        $normalCode = str_replace('_', ' ', $code);
+		$this->data['ingredients'] = '';
+		$recipe = $this->RecipesModel->get($recipeID);
+		$stock = $this->StockModel->get($recipeID);
+		$ingredients = $this->db->query("SELECT * FROM Ingredients WHERE ingredientsCode = ?", array($recipe->ingredientsCode));
+		foreach ($ingredients->result() as $row) {
+			$this->data['ingredients'] .= '<li>' . $row->ingredient . '</li>';
+		}
+
+        $this->data['pagetitle'] = $recipe->code;
+
+        $this->data['code'] = $recipe->code;
+        $this->data['description'] = $recipe->description;
+        $this->data['sellingPrice'] = $stock->sellingPrice;
+        $this->data['quantityOnHand'] = $stock->quantityOnHand;
+
+		if ($stock->quantityOnHand > 0) {
+			$this->data['buyButton'] = "<a type='button' class='btn btn-primary' href='/sales/buy/" . $stock->id . "'>Buy</a>";
+		} else {
+			$this->data['buyButton'] = "<a type='button' class='btn btn-danger' disabled>Buy</a>";
+		}
+
         $this->data['pagebody'] = 'sales/item_view';
-        $stock = $this->stockModel->singleStock($normalCode);
-        $recipe = $this->recipesModel->singleRecipe($normalCode);
-        $this->data['pagetitle'] = $stock['code'];
-
-        $this->data['code'] = $stock['code'];
-        $this->data['link'] = str_replace(' ', '_', $stock['code']);
-        $this->data['description'] = $stock['description'];
-        $this->data['sellingPrice'] = $stock['sellingPrice'];
-        $this->data['quantityOnHand'] = $stock['quantityOnHand'];
-
-        $ingredients = array();
-
-        foreach ($recipe['ingredients'] as $item)
-        {
-            $ingredients[] = array(
-                'ingredient' => $item['ingredient'],
-                'amount' => $item['amount']);
-        }
-        $this->data['ingredients'] = $ingredients;
-
         $this->render();
 
     }
