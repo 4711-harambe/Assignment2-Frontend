@@ -22,7 +22,7 @@
                 <td>{description}</td>
                 <td>${sellingPrice}</td>
                 <td>{quantityOnHand}</td>
-                <td><input class="btn btn-primary" type="submit" value="Edit"></td>
+                <td>{editButton}</td>
                 <td>{deleteButton}</td>
             </tr>
             {/stock}
