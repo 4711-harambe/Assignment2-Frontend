@@ -2,12 +2,14 @@
 <hr>
 
 <h1>Stock</h1>
-<input class="btn btn-success" type="submit" value="Add">
+<a class="btn btn-success" type="button" href="admin/addStock">Add</a>
 <div class="table-responsive">
     <table class="table" action="">
         <thead>
         <th>Item</th>
         <th>Description</th>
+        <th>Selling Price</th>
+        <th>Quantity</th>
         <th>Edit</th>
         <th>Delete</th>
         </thead>
@@ -21,7 +23,7 @@
                 <td>${sellingPrice}</td>
                 <td>{quantityOnHand}</td>
                 <td><input class="btn btn-primary" type="submit" value="Edit"></td>
-                <td><input class="btn btn-danger" type="submit" value="Delete"></td>
+                <td>{deleteButton}</td>
             </tr>
             {/stock}
         </form>
@@ -68,20 +70,22 @@
         <thead>
         <th>Item</th>
         <th>Description</th>
+        <th>Ingredients</th>
         <th>Edit</th>
         <th>Delete</th>
         </thead>
         <form>
-            {supplies}
+            {recipes}
             <tr>
                 <td>
                     <a href="sales/item_view/{link}">{code}</a>
                 </td>
                 <td>{description}</td>
+                <td><ul>{ingredients}</ul></td>
                 <td><input class="btn btn-primary" type="submit" value="Edit"></td>
-                <td><input class="btn btn-danger" type="submit" value="Delete"></td>
+                <td>{deleteButton}</td>
             </tr>
-            {/supplies}
+            {/recipes}
         </form>
     </table>
 </div>

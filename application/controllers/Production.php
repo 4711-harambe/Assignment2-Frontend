@@ -20,6 +20,10 @@ class Production extends Application {
 			return;
 		}
 
+		$stockQuery = $this->StockModel->all();
+		foreach ($stockQuery as $stock) {
+			$stockList[$stock->code] = $stock->quantityOnHand;
+		}
 		$suppliesQuery = $this->SuppliesModel->all();
 		foreach ($suppliesQuery as $supply) {
 			$supplies[$supply->code] = $supply->quantityOnHand;
@@ -29,6 +33,7 @@ class Production extends Application {
 		foreach ($recipes as &$recipe) {
 			$can_produce = TRUE;
 			$recipe->ingredients = '';
+			$recipe->stock = $stockList[$recipe->code];
 			$ingredients = $this->db->query("SELECT * FROM Ingredients WHERE ingredientsCode = ?", array($recipe->ingredientsCode));
 			foreach ($ingredients->result() as $row) {
 				if ($supplies[$row->ingredient] < $row->amount) {
@@ -37,7 +42,7 @@ class Production extends Application {
 				$recipe->ingredients .= '<li>' . $row->ingredient . ' ( ' . $supplies[$row->ingredient] . ' / ' . $row->amount . ' )</li>';
 			}
 			if ($can_produce) {
-				$recipe->produceButton = "<a type='button' class='btn btn-primary' href={prod_link}>Create</a>";
+				$recipe->produceButton = "<a type='button' class='btn btn-primary' href='production/create/" . $recipe->id . "'>Create</a>";
 			} else {
 				$recipe->produceButton = '';
 			}
@@ -46,43 +51,5 @@ class Production extends Application {
 		$this->data['pagetitle'] = "Production Page";
 		$this->data['pagebody'] = 'production_view';
 		$this->render();
-		//$this->load->view('production_view', $this->data);
-	}
-
-	public function getViewData() {
-		$recipes = $this->getRecipes();
-		foreach ($recipes as &$recipe) {
-			$can_produce = TRUE;
-			foreach ($recipe['ingredients'] as &$ingredient) {
-				$ingredient['amt_in_stock'] = $this->getSupplyCount($ingredient['ingredient']);
-				if ($ingredient['amt_in_stock'] < $ingredient['amount']) {
-					$can_produce = FALSE;
-				}
-			}
-			$recipe['can_produce'] = $can_produce;
-			$recipe['prod_link'] = str_replace(' ', '_', $recipe['code']);
-		}
-		return $recipes;
-	}
-
-	public function getRecipes() {
-		$recipes = $this->recipesModel->all();
-		return $recipes;
-	}
-
-	public function getSupplyCount($code) {
-		$supplyCount = $this->suppliesModel->singleSupply($code)['quantityOnHand'];
-		return $supplyCount;
-	}
-
-	public function create($code) {
-		$normalCode = str_replace('_', ' ', $code);
-		$stockCount = $this->stockModel->singleStock($normalCode)['quantityOnHand'];
-		$this->phpAlert("Created 1 " . $normalCode . ". There are now " . ($stockCount + 1) . " in stock.");
-		redirect('/production', 'refresh');
-	}
-
-	public function phpAlert($msg) {
-	    echo '<script type="text/javascript">alert("' . $msg . '")</script>';
 	}
 }

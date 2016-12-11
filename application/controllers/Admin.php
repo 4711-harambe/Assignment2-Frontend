@@ -19,7 +19,20 @@ class Admin extends Application {
           return;
         }
         $recipes = $this->RecipesModel->all();
+        foreach ($recipes as &$recipe) {
+			$recipe->ingredients = '';
+			$ingredients = $this->db->query("SELECT * FROM Ingredients WHERE ingredientsCode = ?", array($recipe->ingredientsCode));
+			foreach ($ingredients->result() as $row) {
+				$recipe->ingredients .= '<li>' . $row->ingredient . '</li>';
+			}
+            $recipe->deleteButton = '<a class="btn btn-danger" type="button" href="admin/deleteRecipe/' . $recipe->id . '">Delete</a>';
+        }
+
+
         $stock = $this->StockModel->all();
+        foreach ($stock as &$stockItem) {
+            $stockItem->deleteButton = '<a class="btn btn-danger" type="button" href="admin/deleteStock/' . $stockItem->id . '">Delete</a>';
+        }
         $supplies = $this->SuppliesModel->all();
         $this->data['recipes'] = $recipes;
         $this->data['stock'] = $stock;
@@ -137,18 +150,14 @@ class Admin extends Application {
     }
 
     // Delete Recipe from data model.
-    public function deleteRecipe($code) {
-        $normalCode = str_replace('_', ' ', $code);
-        $this->recipesModel->deleteRecipe($normalCode);
-        $this->phpAlert("Deleted recipe: " . $normalCode);
+    public function deleteRecipe($recipeID) {
+        $this->RecipesModel->delete($recipeID);
         redirect('/admin', 'refresh');
     }
 
     // Delete stock item from data model.
-    public function deleteStock($code) {
-        $normalCode = str_replace('_', ' ', $code);
-        $this->stockModel->deleteStock($normalCode);
-        $this->phpAlert("Deleted stock item: " . $normalCode);
+    public function deleteStock($stockID) {
+        $this->StockModel->delete($stockID);
         redirect('/admin', 'refresh');
     }
 
