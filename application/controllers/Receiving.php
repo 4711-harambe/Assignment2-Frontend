@@ -70,6 +70,9 @@
                                        "description" => $this->input->post('description'),
                                        "quantityOnHand" => $this->input->post('quantity'));
         		$this->SuppliesModel->update($updatedSupply);
+                
+                $this->LogUpdateSupply($updatedSupply);
+                
                 redirect('/receiving', 'refresh');
             }
         }
@@ -89,5 +92,26 @@
 
             $this->render();
         }
+
+    public function LogUpdateSupply($updatedSupply) {
+        $id = rand(100, 999);
+
+        // use this if the file doesn't exist
+        while (file_exists('../data/updateSupply' . $id . '.xml')) {
+            $id = rand(100, 999);
+        }
+        // and establish the checkout time
+        $dateTime = date(DATE_ATOM);
+
+        // start empty
+        $xml = new SimpleXMLElement('<updateSupply/>');
+
+        $xml->addChild('number', $id);
+        $xml->addChild('datetime', $dateTime);
+        $xml->addChild('supplyID', $updatedSupply->id);
+        $xml->addChild('quantity', $updatedSupply->quantityOnHand);
+
+        $xml->asXML('../data/updateSupply' . $id . '.xml');
+    } 
 
     }
