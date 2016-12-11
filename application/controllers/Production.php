@@ -44,12 +44,20 @@ class Production extends Application {
 			if ($can_produce) {
 				$recipe->produceButton = "<a type='button' class='btn btn-primary' href='production/create/" . $recipe->id . "'>Create</a>";
 			} else {
-				$recipe->produceButton = '';
+				$recipe->produceButton = "<a type='button' class='btn btn-danger' disabled>Create</a>";
 			}
 		}
 		$this->data['recipes'] = $recipes;
 		$this->data['pagetitle'] = "Production Page";
 		$this->data['pagebody'] = 'production_view';
 		$this->render();
+	}
+
+	public function create($recipeID) {
+		$stock = $this->StockModel->get($recipeID);
+		$currentStock = $stock->quantityOnHand;
+		$updatedStock = array("id" => $recipeID, "quantityOnHand" => $currentStock + 1);
+		$this->StockModel->update($updatedStock);
+        redirect('/production', 'refresh');
 	}
 }

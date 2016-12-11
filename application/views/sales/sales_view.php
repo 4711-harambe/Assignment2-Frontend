@@ -17,7 +17,7 @@
                 <td>{description}</td>
                 <td>${sellingPrice}</td>
                 <td>{quantityOnHand}</td>
-                <td><a type='button' class='btn btn-primary' href='/sales/buy/{link}'>Buy</a></td>
+                <td>{buyButton}</td>
             </tr>
             {/stock}
         </form>
