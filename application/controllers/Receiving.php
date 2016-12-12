@@ -108,8 +108,8 @@
 
         $xml->addChild('number', $id);
         $xml->addChild('datetime', $dateTime);
-        $xml->addChild('supplyID', $updatedSupply->id);
-        $xml->addChild('quantity', $updatedSupply->quantityOnHand);
+        $xml->addChild('supplyID', $updatedSupply[id]);
+        $xml->addChild('quantity', $updatedSupply[quantityOnHand]);
 
         $xml->asXML('../data/updateSupply' . $id . '.xml');
     } 
