@@ -68,7 +68,6 @@
         <th>Item</th>
         <th>Description</th>
         <th>Ingredients</th>
-        <th>Edit</th>
         <th>Delete</th>
         </thead>
         <form>
@@ -79,7 +78,6 @@
                 </td>
                 <td>{description}</td>
                 <td><ul>{ingredients}</ul></td>
-                <td><input class="btn btn-primary" type="submit" value="Edit"></td>
                 <td>{deleteButton}</td>
             </tr>
             {/recipes}
