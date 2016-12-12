@@ -5,57 +5,104 @@ class Production extends Application {
 
 	public function __construct() {
 		parent::__construct();
-		$this->load->model('recipesModel');
-		$this->load->model('suppliesModel');
-		$this->load->model('stockModel');
 	}
 	/**
 	 * Index Page for the Production controller.
 	 */
 	public function index()
 	{
-		$recipes = $this->getViewData();
+		if (!($this->session->userdata('userrole') == 'admin' || $this->session->userdata('userrole') == 'user'))
+		{
+			$this->data['pagetitle'] = "Production Page";
+			$this->data['message'] = "Invalid Credentials for Page Access";
+			$this->data['pagebody'] = "error_view";
+			$this->render();
+			return;
+		}
+
+		$stockQuery = $this->StockModel->all();
+		foreach ($stockQuery as $stock) {
+			$stockList[$stock->code] = $stock->quantityOnHand;
+		}
+		$suppliesQuery = $this->SuppliesModel->all();
+		foreach ($suppliesQuery as $supply) {
+			$supplies[$supply->code] = $supply->quantityOnHand;
+		}
+
+		$recipes = $this->RecipesModel->all();
+		foreach ($recipes as &$recipe) {
+			$can_produce = TRUE;
+			$recipe->ingredients = '';
+
+			if (!array_key_exists($recipe->code, $stockList)) {
+				$stockList[$recipe->code] = 0;
+			}
+			$recipe->stock = $stockList[$recipe->code];
+			$ingredients = $this->db->query("SELECT * FROM Ingredients WHERE ingredientsCode = ?", array($recipe->ingredientsCode));
+			foreach ($ingredients->result() as $row) {
+				if (!array_key_exists($row->ingredient, $supplies)) {
+					$supplies[$row->ingredient] = 0;
+				}
+				if ($supplies[$row->ingredient] < $row->amount) {
+					$can_produce = FALSE;
+				}
+				$recipe->ingredients .= '<li>' . $row->ingredient . ' ( ' . $supplies[$row->ingredient] . ' / ' . $row->amount . ' )</li>';
+			}
+			if ($can_produce) {
+				$recipe->produceButton = "<a type='button' class='btn btn-primary' href='/production/create/" . $recipe->id . "'>Create</a>";
+			} else {
+				$recipe->produceButton = "<a type='button' class='btn btn-danger' disabled>Create</a>";
+			}
+		}
 		$this->data['recipes'] = $recipes;
 		$this->data['pagetitle'] = "Production Page";
 		$this->data['pagebody'] = 'production_view';
 		$this->render();
-		//$this->load->view('production_view', $this->data);
 	}
 
-	public function getViewData() {
-		$recipes = $this->getRecipes();
-		foreach ($recipes as &$recipe) {
-			$can_produce = TRUE;
-			foreach ($recipe['ingredients'] as &$ingredient) {
-				$ingredient['amt_in_stock'] = $this->getSupplyCount($ingredient['ingredient']);
-				if ($ingredient['amt_in_stock'] < $ingredient['amount']) {
-					$can_produce = FALSE;
-				}
-			}
-			$recipe['can_produce'] = $can_produce;
-			$recipe['prod_link'] = str_replace(' ', '_', $recipe['code']);
+	public function create($recipeID) {
+		$suppliesQuery = $this->SuppliesModel->all();
+		foreach ($suppliesQuery as $supply) {
+			$supplies[$supply->code] = array("id" => $supply->id, "quantity" => $supply->quantityOnHand, "description" => $supply->description);
 		}
-		return $recipes;
-	}
+		$stock = $this->StockModel->get($recipeID);
+		$recipe = $this->RecipesModel->get($recipeID);
+		$currentStock = $stock->quantityOnHand;
+		$updatedStock = array("id" => $recipeID, "quantityOnHand" => $currentStock + 1);
+		$this->StockModel->update($updatedStock);
 
-	public function getRecipes() {
-		$recipes = $this->recipesModel->all();
-		return $recipes;
-	}
+		$ingredients = $this->db->query("SELECT * FROM Ingredients WHERE ingredientsCode = ?", array($recipe->ingredientsCode));
+		foreach ($ingredients->result() as $row) {
 
-	public function getSupplyCount($code) {
-		$supplyCount = $this->suppliesModel->singleSupply($code)['quantityOnHand'];
-		return $supplyCount;
-	}
+			$updatedSupply = array("id" => $supplies[$row->ingredient]["id"],
+								   "quantityOnHand" => $supplies[$row->ingredient]["quantity"] - $row->amount,
+								   "description" => $supplies[$row->ingredient]["description"]);
+			$this->SuppliesModel->update($updatedSupply);
+		}
+                
+                $this->LogRecipeCreate($recipe);
 
-	public function create($code) {
-		$normalCode = str_replace('_', ' ', $code);
-		$stockCount = $this->stockModel->singleStock($normalCode)['quantityOnHand'];
-		$this->phpAlert("Created 1 " . $normalCode . ". There are now " . ($stockCount + 1) . " in stock.");
+		// Add logic to reduce Supplies level
 		redirect('/production', 'refresh');
 	}
+        
+    public function LogRecipeCreate($recipe) {
+        $id = rand(100, 999);
 
-	public function phpAlert($msg) {
-	    echo '<script type="text/javascript">alert("' . $msg . '")</script>';
-	}
+        // use this if the file doesn't exist
+        while (file_exists('../data/recipeCreate' . $id . '.xml')) {
+            $id = rand(100, 999);
+        }
+        // and establish the checkout time
+        $dateTime = date(DATE_ATOM);
+
+        // start empty
+        $xml = new SimpleXMLElement('<createRecipe/>');
+
+        $xml->addChild('number', $id);
+        $xml->addChild('datetime', $dateTime);
+        $xml->addChild('recipeName', $recipe->code);
+
+        $xml->asXML('../data/recipeCreate' . $id . '.xml');
+    }       
 }

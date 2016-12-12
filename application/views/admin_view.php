@@ -2,12 +2,13 @@
 <hr>
 
 <h1>Stock</h1>
-<input class="btn btn-success" type="submit" value="Add">
 <div class="table-responsive">
     <table class="table" action="">
         <thead>
         <th>Item</th>
         <th>Description</th>
+        <th>Selling Price</th>
+        <th>Quantity</th>
         <th>Edit</th>
         <th>Delete</th>
         </thead>
@@ -15,13 +16,13 @@
             {stock}
             <tr>
                 <td>
-                    <a href="sales/item_view/{link}">{code}</a>
+                    <strong>{code}</strong>
                 </td>
                 <td>{description}</td>
                 <td>${sellingPrice}</td>
                 <td>{quantityOnHand}</td>
-                <td><input class="btn btn-primary" type="submit" value="Edit"></td>
-                <td><input class="btn btn-danger" type="submit" value="Delete"></td>
+                <td>{editButton}</td>
+                <td>{deleteButton}</td>
             </tr>
             {/stock}
         </form>
@@ -31,7 +32,6 @@
 <hr>
 
 <h1>Supplies</h1>
-<input class="btn btn-success" type="submit" value="Add">
 <div class="table-responsive">
     <table class="table" action="">
         <thead>
@@ -47,14 +47,14 @@
             {supplies}
             <tr>
                 <td>
-                    <a href="sales/item_view/{link}">{code}</a>
+                    <strong>{code}</strong>
                 </td>
                 <td>{description}</td>
                 <td>${receivingCost}</td>
                 <td>{stockingUnit}</td>
                 <td>{quantityOnHand}</td>
-                <td><input class="btn btn-primary" type="submit" value="Edit"></td>
-                <td><input class="btn btn-danger" type="submit" value="Delete"></td>
+                <td>{editButton}</td>
+                <td>{deleteButton}</td>
             </tr>
             {/supplies}
         </form>
@@ -62,26 +62,25 @@
 </div>
 
 <h1>Recipes</h1>
-<input class="btn btn-success" type="submit" value="Add">
 <div class="table-responsive">
     <table class="table" action="">
         <thead>
         <th>Item</th>
         <th>Description</th>
-        <th>Edit</th>
+        <th>Ingredients</th>
         <th>Delete</th>
         </thead>
         <form>
-            {supplies}
+            {recipes}
             <tr>
                 <td>
-                    <a href="sales/item_view/{link}">{code}</a>
+                    <strong>{code}</strong>
                 </td>
                 <td>{description}</td>
-                <td><input class="btn btn-primary" type="submit" value="Edit"></td>
-                <td><input class="btn btn-danger" type="submit" value="Delete"></td>
+                <td><ul>{ingredients}</ul></td>
+                <td>{deleteButton}</td>
             </tr>
-            {/supplies}
+            {/recipes}
         </form>
     </table>
 </div>
